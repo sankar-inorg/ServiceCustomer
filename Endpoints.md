@@ -22,8 +22,11 @@ POST: http://localhost:8080/customer/resetPassword
 
 POST: http://localhost:8080/customer/createEmailVerificationToken/{{customer-id}}
 
+GET: http://localhost:8080/customer/verifyEmailToken/{{token-value}}
+
 1) Customer --> CreateCustomer
 2) Authenticate Customer (Sign In)
 3) Customer --> Create a Token for Resetting Customer's Password
 4) Customer --> Reset Customers Password
 5) Customer --> Create a Token for Verifying Customer's Email
+6) Customer --> Get Customer by Email Verification Token

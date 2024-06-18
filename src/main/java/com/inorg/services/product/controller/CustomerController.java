@@ -56,4 +56,10 @@ public class CustomerController {
         return customerService.createEmailVerificationToken(customerId);
     }
 
+    @GetMapping(value = "/verifyEmailToken/{token}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Customer verifyEmailToken(@PathVariable String token) {
+        LOG.info("Verifying the Email Token : {}", token);
+        return customerService.verifyEmailToken(token);
+    }
+
 }

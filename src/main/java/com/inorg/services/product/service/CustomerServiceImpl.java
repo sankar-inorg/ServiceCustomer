@@ -85,4 +85,13 @@ public class CustomerServiceImpl implements CustomerService {
                 .executeBlocking()
                 .getBody();
     }
+
+    @Override
+    public Customer verifyEmailToken(String token) {
+        return apiRoot.customers()
+                .withEmailToken(token)
+                .get()
+                .executeBlocking()
+                .getBody();
+    }
 }

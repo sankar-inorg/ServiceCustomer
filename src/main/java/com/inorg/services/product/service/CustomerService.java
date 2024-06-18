@@ -16,4 +16,6 @@ public interface CustomerService {
     Customer resetPassword(String token, String newPassword);
 
     CustomerToken createEmailVerificationToken(String customerId);
+
+    Customer verifyEmailToken(String token);
 }
