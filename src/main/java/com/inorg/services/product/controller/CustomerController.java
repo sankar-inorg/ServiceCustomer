@@ -50,4 +50,10 @@ public class CustomerController {
         return customerService.resetPassword(resetPasswordDTO.getToken(), resetPasswordDTO.getNewPassword());
     }
 
+    @PostMapping(value = "/createEmailVerificationToken/{customerId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public CustomerToken createEmailVerificationToken(@PathVariable String customerId) {
+        LOG.info("Create Email Verification Token : {}", customerId);
+        return customerService.createEmailVerificationToken(customerId);
+    }
+
 }
