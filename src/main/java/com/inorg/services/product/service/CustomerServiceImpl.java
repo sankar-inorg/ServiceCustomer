@@ -1,19 +1,18 @@
 package com.inorg.services.product.service;
 
 import com.commercetools.api.client.ProjectApiRoot;
-import com.commercetools.api.models.customer.Customer;
-import com.commercetools.api.models.customer.CustomerCreatePasswordResetTokenBuilder;
-import com.commercetools.api.models.customer.CustomerDraft;
-import com.commercetools.api.models.customer.CustomerDraftBuilder;
-import com.commercetools.api.models.customer.CustomerResetPasswordBuilder;
-import com.commercetools.api.models.customer.CustomerSignInResult;
-import com.commercetools.api.models.customer.CustomerSigninBuilder;
-import com.commercetools.api.models.customer.CustomerToken;
+import com.commercetools.api.models.customer.*;
+import com.commercetools.api.models.customer_group.CustomerGroup;
+import com.commercetools.api.models.customer_group.CustomerGroupDraftBuilder;
+import com.commercetools.api.models.customer_group.CustomerGroupResourceIdentifierBuilder;
 import com.inorg.services.product.com.inorg.services.product.models.CustomerData;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @Slf4j
@@ -82,6 +81,73 @@ public class CustomerServiceImpl implements CustomerService {
                         .tokenValue(token)
                         .newPassword(newPassword)
                         .build())
+                .executeBlocking()
+                .getBody();
+    }
+    @Override
+    public CustomerToken createEmailVerificationToken(String customerId){
+        return apiRoot.customers()
+                .emailToken()
+                .post(CustomerCreateEmailTokenBuilder.of()
+                      .id(customerId)
+                      .ttlMinutes(60L)
+                      .build())
+                .executeBlocking()
+                .getBody();
+    }
+
+    @Override
+    public Customer verifyEmailToken(String token){
+        return apiRoot.customers()
+                .withEmailToken(token)
+                .get()
+                .executeBlocking()
+                .getBody();
+
+    }
+    @Override
+    public Customer verifyEmail(String token){
+        return apiRoot.customers()
+                .emailConfirm()
+                .post(CustomerEmailVerifyBuilder.of()
+                        .tokenValue(token).build())
+                .executeBlocking()
+                .getBody();
+
+    }
+    @Override
+    public CustomerGroup createCustomerGroup(String customerGroupName, String groupKey){
+        return apiRoot.customerGroups()
+                .post(CustomerGroupDraftBuilder.of()
+                      .groupName(customerGroupName)
+                      .key(groupKey)
+                .build())
+                .executeBlocking()
+                .getBody();
+    }
+    @Override
+    public Customer addCustomerToACustomerGroup(String customerId, String customerGroupId){
+
+        Customer customer = apiRoot.customers()
+                .withId(customerId)
+                .get()
+                .executeBlocking().getBody();
+
+        List<CustomerUpdateAction> customerUpdateActionList =new ArrayList<>();
+
+        CustomerUpdateAction setCustomerGroup = CustomerSetCustomerGroupActionBuilder.of()
+                .customerGroup(CustomerGroupResourceIdentifierBuilder.of().id(customerGroupId).build()).build();
+
+        customerUpdateActionList.add(setCustomerGroup);
+
+        CustomerUpdate customerUpdate = CustomerUpdate.builder()
+                .version(customer.getVersion())
+                .actions(customerUpdateActionList)
+                .build();
+
+        return apiRoot.customers()
+                .withId(customerId)
+                .post(customerUpdate)
                 .executeBlocking()
                 .getBody();
     }
