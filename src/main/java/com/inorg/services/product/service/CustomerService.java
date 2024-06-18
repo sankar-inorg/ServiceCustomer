@@ -23,4 +23,6 @@ public interface CustomerService {
     Customer verifyEmail(String token);
 
     CustomerGroup createCustomerGroup(String customerGroupName);
+
+    Customer addCustomerToACustomerGroup(String customerId, String customerGroupId);
 }

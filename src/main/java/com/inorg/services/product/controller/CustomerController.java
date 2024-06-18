@@ -75,4 +75,10 @@ public class CustomerController {
         return customerService.createCustomerGroup(customerGroupName);
     }
 
+    @PostMapping(value = "/addCustomerToACustomerGroup/{customerId}/{customerGroupId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Customer addCustomerToACustomerGroup(@PathVariable String customerId, @PathVariable String customerGroupId) {
+        LOG.info("Adding Customer to a Customer Group {} {}", customerId, customerGroupId);
+        return customerService.addCustomerToACustomerGroup(customerId,customerGroupId);
+    }
+
 }

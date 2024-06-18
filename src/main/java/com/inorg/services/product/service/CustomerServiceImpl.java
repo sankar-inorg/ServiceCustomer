@@ -4,11 +4,15 @@ import com.commercetools.api.client.ProjectApiRoot;
 import com.commercetools.api.models.customer.*;
 import com.commercetools.api.models.customer_group.CustomerGroup;
 import com.commercetools.api.models.customer_group.CustomerGroupDraftBuilder;
+import com.commercetools.api.models.customer_group.CustomerGroupResourceIdentifierBuilder;
 import com.inorg.services.product.models.CustomerData;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @Slf4j
@@ -112,6 +116,36 @@ public class CustomerServiceImpl implements CustomerService {
                 .post(CustomerGroupDraftBuilder.of()
                         .groupName(customerGroupName)
                         .build())
+                .executeBlocking()
+                .getBody();
+    }
+
+    @Override
+    public Customer addCustomerToACustomerGroup(String customerId, String customerGroupId) {
+        // Get the Customer
+        Customer customer = apiRoot.customers()
+                .withId(customerId)
+                .get()
+                .executeBlocking().getBody();
+        // Create an Action List
+        List<CustomerUpdateAction> customerUpdateActionList = new ArrayList<>();
+        // Create an Action
+        CustomerUpdateAction setCustomerGroup = CustomerSetCustomerGroupActionBuilder.of()
+                .customerGroup(CustomerGroupResourceIdentifierBuilder.of()
+                        .id(customerGroupId)
+                        .build())
+                .build();
+        // Add the Action to the Action List
+        customerUpdateActionList.add(setCustomerGroup);
+        // Create the Draft using the Version from Customer and the Action List
+        CustomerUpdate customerUpdate = CustomerUpdateBuilder.of()
+                .version(customer.getVersion())
+                .actions(customerUpdateActionList)
+                .build();
+        // Pass the JSON Body and Make the API Call
+        return apiRoot.customers()
+                .withId(customerId)
+                .post(customerUpdate)
                 .executeBlocking()
                 .getBody();
     }
