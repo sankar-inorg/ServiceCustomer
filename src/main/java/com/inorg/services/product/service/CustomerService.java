@@ -18,4 +18,6 @@ public interface CustomerService {
     CustomerToken createEmailVerificationToken(String customerId);
 
     Customer verifyEmailToken(String token);
+
+    Customer verifyEmail(String token);
 }

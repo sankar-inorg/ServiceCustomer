@@ -62,4 +62,10 @@ public class CustomerController {
         return customerService.verifyEmailToken(token);
     }
 
+    @PostMapping(value = "/verifyEmail/{token}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Customer verifyEmail(@PathVariable String token) {
+        LOG.info("Verify Email : {}", token);
+        return customerService.verifyEmail(token);
+    }
+
 }
