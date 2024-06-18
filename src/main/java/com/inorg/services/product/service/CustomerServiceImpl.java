@@ -33,7 +33,7 @@ public class CustomerServiceImpl implements CustomerService {
                 .firstName(customerData.getFirstName())
                 .lastName(customerData.getLastName())
                 .password(customerData.getPassword())
-                .key(customerData.getCustomerKey())
+                .key(customerData.getCustomerKey()) // Optional Attribute
                 .build();
         return apiRoot.customers()
                 .post(customerDraft)
