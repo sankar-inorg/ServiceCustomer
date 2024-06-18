@@ -1,7 +1,9 @@
 package com.inorg.services.product.controller;
 
+import com.commercetools.api.models.customer.Customer;
 import com.commercetools.api.models.customer.CustomerSignInResult;
 import com.commercetools.api.models.customer.CustomerToken;
+import com.inorg.services.product.dto.ResetPasswordDTO;
 import com.inorg.services.product.models.CustomerData;
 import com.inorg.services.product.service.CustomerService;
 import org.slf4j.Logger;
@@ -40,6 +42,12 @@ public class CustomerController {
     public CustomerToken createResetPasswordToken(@PathVariable String customerId) {
         LOG.info("Create Reset Password Token : {}", customerId);
         return customerService.createResetPasswordToken(customerId);
+    }
+
+    @PostMapping(value = "/resetPassword", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Customer createResetPasswordToken(@RequestBody ResetPasswordDTO resetPasswordDTO) {
+        LOG.info("Resetting the Password");
+        return customerService.resetPassword(resetPasswordDTO.getToken(), resetPasswordDTO.getNewPassword());
     }
 
 }
