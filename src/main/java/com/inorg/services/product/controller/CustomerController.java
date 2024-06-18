@@ -3,6 +3,7 @@ package com.inorg.services.product.controller;
 import com.commercetools.api.models.customer.Customer;
 import com.commercetools.api.models.customer.CustomerSignInResult;
 import com.commercetools.api.models.customer.CustomerToken;
+import com.commercetools.api.models.customer_group.CustomerGroup;
 import com.inorg.services.product.dto.ResetPasswordDTO;
 import com.inorg.services.product.models.CustomerData;
 import com.inorg.services.product.service.CustomerService;
@@ -66,6 +67,12 @@ public class CustomerController {
     public Customer verifyEmail(@PathVariable String token) {
         LOG.info("Verify Email : {}", token);
         return customerService.verifyEmail(token);
+    }
+
+    @PostMapping(value = "/createCustomerGroup/{customerGroupName}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public CustomerGroup createCustomerGroup(@PathVariable String customerGroupName) {
+        LOG.info("Create Customer Group {}", customerGroupName);
+        return customerService.createCustomerGroup(customerGroupName);
     }
 
 }

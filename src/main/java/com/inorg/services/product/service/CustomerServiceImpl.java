@@ -2,6 +2,8 @@ package com.inorg.services.product.service;
 
 import com.commercetools.api.client.ProjectApiRoot;
 import com.commercetools.api.models.customer.*;
+import com.commercetools.api.models.customer_group.CustomerGroup;
+import com.commercetools.api.models.customer_group.CustomerGroupDraftBuilder;
 import com.inorg.services.product.models.CustomerData;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
@@ -101,6 +103,16 @@ public class CustomerServiceImpl implements CustomerService {
                 .emailConfirm()
                 .post(CustomerEmailVerifyBuilder.of()
                         .tokenValue(token).build())
+                .executeBlocking()
+                .getBody();
+    }
+
+    @Override
+    public CustomerGroup createCustomerGroup(String customerGroupName) {
+        return apiRoot.customerGroups()
+                .post(CustomerGroupDraftBuilder.of()
+                        .groupName(customerGroupName)
+                        .build())
                 .executeBlocking()
                 .getBody();
     }

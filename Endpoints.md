@@ -26,6 +26,8 @@ GET: http://localhost:8080/customer/verifyEmailToken/{{token-value}}
 
 POST: http://localhost:8080/customer/verifyEmail/{{token-value}}
 
+POST: http://localhost:8080/customer/createCustomerGroup/{{customer-group-name}}
+
 1) Customer --> CreateCustomer
 2) Authenticate Customer (Sign In)
 3) Customer --> Create a Token for Resetting Customer's Password
@@ -33,3 +35,4 @@ POST: http://localhost:8080/customer/verifyEmail/{{token-value}}
 5) Customer --> Create a Token for Verifying Customer's Email
 6) Customer --> Get Customer by Email Verification Token
 7) Customer --> Verify Customer's Email
+8) CustomerGroup --> Create Customer Group
