@@ -53,7 +53,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public CustomerToken createRestPasswordToken(String customerId) {
+    public CustomerToken createResetPasswordToken(String customerId) {
         Customer customer = apiRoot.customers()
                 .withId(customerId)
                 .get()

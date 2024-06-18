@@ -11,3 +11,5 @@ POST: http://localhost:8080/customer/signin
 "email" : "johny@example.com",
 "password" : "secret123"
 }
+
+POST: http://localhost:8080/customer/createResetPasswordToken/{{customer-id}}

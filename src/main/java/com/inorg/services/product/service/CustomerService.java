@@ -11,7 +11,7 @@ public interface CustomerService {
 
     CustomerSignInResult loginCustomer(CustomerData customerData);
 
-    CustomerToken createRestPasswordToken(String customerId);
+    CustomerToken createResetPasswordToken(String customerId);
 
     Customer resetPassword(String token, String newPassword);
 }
