@@ -3,17 +3,15 @@ package com.inorg.services.product.service;
 import com.commercetools.api.client.ProjectApiRoot;
 import com.commercetools.api.models.common.LocalizedStringBuilder;
 import com.commercetools.api.models.customer.CustomerResourceIdentifierBuilder;
-import com.commercetools.api.models.shopping_list.ShoppingList;
-import com.commercetools.api.models.shopping_list.ShoppingListDraft;
-import com.commercetools.api.models.shopping_list.ShoppingListDraftBuilder;
-import com.commercetools.api.models.shopping_list.ShoppingListLineItemDraft;
-import com.commercetools.api.models.shopping_list.ShoppingListLineItemDraftBuilder;
+import com.commercetools.api.models.shopping_list.*;
+import com.inorg.services.product.dto.LineItemDTO;
 import com.inorg.services.product.dto.ShoppingListDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -49,6 +47,34 @@ public class ShoppingServiceImpl implements ShoppingService {
 
         return apiRoot.shoppingLists()
                 .post(shoppingListDraft)
+                .executeBlocking()
+                .getBody();
+    }
+
+    public ShoppingList addLineItem(LineItemDTO lineItemDTO) {
+        // Get the ShoppingList
+        ShoppingList shoppingList = apiRoot.shoppingLists()
+                .withId(lineItemDTO.getShoppingListID())
+                .get()
+                .executeBlocking()
+                .getBody();
+        // Create and Update the ActionList
+        List<ShoppingListUpdateAction> shoppingListUpdateActionList = new ArrayList<>();
+        ShoppingListUpdateAction shoppingListUpdateAction = ShoppingListAddLineItemActionBuilder.of()
+                .productId(lineItemDTO.getProductID())
+                .variantId(lineItemDTO.getVariantID())
+                .quantity(lineItemDTO.getQuantity())
+                .build();
+        shoppingListUpdateActionList.add(shoppingListUpdateAction);
+        // Create an Update Object
+        ShoppingListUpdate shoppingListUpdate = ShoppingListUpdateBuilder.of()
+                .version(shoppingList.getVersion())
+                .actions(shoppingListUpdateActionList)
+                .build();
+        // Make the API Call by passing the Object
+        return apiRoot.shoppingLists()
+                .withId(lineItemDTO.getShoppingListID())
+                .post(shoppingListUpdate)
                 .executeBlocking()
                 .getBody();
     }

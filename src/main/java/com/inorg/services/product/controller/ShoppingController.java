@@ -1,6 +1,7 @@
 package com.inorg.services.product.controller;
 
 import com.commercetools.api.models.shopping_list.ShoppingList;
+import com.inorg.services.product.dto.LineItemDTO;
 import com.inorg.services.product.dto.ShoppingListDTO;
 import com.inorg.services.product.service.ShoppingService;
 import org.slf4j.Logger;
@@ -30,5 +31,11 @@ public class ShoppingController {
     public ShoppingList createShoppingList(@RequestBody ShoppingListDTO shoppingListDTO) {
         LOG.info("Creating a Shopping List");
         return shoppingService.createShoppingList(shoppingListDTO);
+    }
+
+    @PostMapping(value = "/addLineItem", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ShoppingList addLineItem(@RequestBody LineItemDTO lineItemDTO) {
+        LOG.info("Adding a Line Item to the Shopping List");
+        return shoppingService.addLineItem(lineItemDTO);
     }
 }

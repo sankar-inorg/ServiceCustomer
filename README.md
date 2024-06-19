@@ -12,5 +12,7 @@ Day 3:
 • Assign Customer to Customer Group
 
 Day 4:
-• Update Customer with preferred shoe size field.
-• Query Customers by preferred shoe size field.
+• Update Customer with preferred shoe size field
+• Query Customers by preferred shoe size field
+• Create New Shopping List for Customer
+• Add Items to Shopping List
