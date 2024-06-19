@@ -1,6 +1,7 @@
 package com.inorg.services.product.service;
 
 import com.commercetools.api.models.customer.Customer;
+import com.commercetools.api.models.customer.CustomerPagedQueryResponse;
 import com.commercetools.api.models.customer.CustomerSignInResult;
 import com.commercetools.api.models.customer.CustomerToken;
 import com.inorg.services.product.com.inorg.services.product.models.CustomerData;
@@ -17,4 +18,5 @@ public interface CustomerService {
     Customer updateCustomerShoeSize(String customerKey, String shoeSize);
 
 
+    CustomerPagedQueryResponse getCustomerByShoeSize(String preferredShoeSize);
 }

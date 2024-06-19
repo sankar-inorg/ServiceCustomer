@@ -1,6 +1,7 @@
 package com.inorg.services.product.controller;
 
 import com.commercetools.api.models.customer.Customer;
+import com.commercetools.api.models.customer.CustomerPagedQueryResponse;
 import com.commercetools.api.models.customer.CustomerSignInResult;
 import com.commercetools.api.models.product.Product;
 import com.commercetools.api.models.product.ProductProjection;
@@ -11,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -47,6 +49,12 @@ public class CustomerController {
     public Customer updateCustomer(@PathVariable String customerKey, @RequestBody CustomerData customerData) {
         LOG.info("Create New Customer with email : {}", customerData.getEmail());
         return customerService.updateCustomerShoeSize(customerKey, customerData.getPreferredShoeSize());
+    }
+
+    @GetMapping(value = "/query-by/{preferredShoeSize}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public CustomerPagedQueryResponse getCustomerByShoeSize(@PathVariable String preferredShoeSize) {
+        LOG.info("Get Customer by Shoe Size : {}", preferredShoeSize);
+        return customerService.getCustomerByShoeSize(preferredShoeSize);
     }
 
     //TODO Add more endpoints for Customer

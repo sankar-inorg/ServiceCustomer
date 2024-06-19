@@ -6,6 +6,7 @@ import com.commercetools.api.models.customer.Customer;
 import com.commercetools.api.models.customer.CustomerCreatePasswordResetTokenBuilder;
 import com.commercetools.api.models.customer.CustomerDraft;
 import com.commercetools.api.models.customer.CustomerDraftBuilder;
+import com.commercetools.api.models.customer.CustomerPagedQueryResponse;
 import com.commercetools.api.models.customer.CustomerResetPasswordBuilder;
 import com.commercetools.api.models.customer.CustomerSetCustomTypeActionBuilder;
 import com.commercetools.api.models.customer.CustomerSignInResult;
@@ -118,6 +119,15 @@ public class CustomerServiceImpl implements CustomerService {
                         .version(customer.getVersion())
                         .actions(updateAction)
                         .build())
+                .executeBlocking()
+                .getBody();
+    }
+
+    @Override
+    public CustomerPagedQueryResponse getCustomerByShoeSize(String preferredShoeSize) {
+        return apiRoot.customers()
+                .get()
+                .withWhere("custom(fields(preferredShoeSize(en-US = \"" + preferredShoeSize + "\")))")
                 .executeBlocking()
                 .getBody();
     }
