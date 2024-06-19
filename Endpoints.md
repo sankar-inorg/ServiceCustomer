@@ -66,5 +66,16 @@ POST: http://localhost:8080/customer/updateCustomer/{{customer-key}}
 
 GET: http://localhost:8080/customer/query-by/{{preferredShoeSize}}
 
+POST: http://localhost:8080/shoppingLists/createShoppingList
+{
+    "shoppingListName" : "My Shopping list 2",
+    "shoppingListSlug" : "my-shopping-list-2",
+    "customerID" : "d80c044e-e159-4e2b-a070-31c480c761ba",
+    "shoppingListKey" : "my-shopping-list-2",
+    "sku" : "Red-35",
+    "quantity" : 5
+}
+
 1) Customer --> Update Customer with preferred shoe size field.
 2) Customer --> Query Customers by preferred shoe size field.
+3) ShoppingList --> Create New Shopping List for Customer.
