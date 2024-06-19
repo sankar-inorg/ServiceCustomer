@@ -14,5 +14,7 @@ public interface CustomerService {
 
     Customer resetPassword(String token, String newPassword);
 
+    Customer updateCustomerShoeSize(String customerKey, String shoeSize);
+
 
 }

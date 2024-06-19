@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,6 +41,12 @@ public class CustomerController {
     public CustomerSignInResult loginCustomer(@RequestBody CustomerData customerData) {
         LOG.info("Sign In Customer with email : {}", customerData.getEmail());
         return customerService.loginCustomer(customerData);
+    }
+
+    @PostMapping(value = "{customerKey}/custom", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Customer updateCustomer(@PathVariable String customerKey, @RequestBody CustomerData customerData) {
+        LOG.info("Create New Customer with email : {}", customerData.getEmail());
+        return customerService.updateCustomerShoeSize(customerKey, customerData.getPreferredShoeSize());
     }
 
     //TODO Add more endpoints for Customer
