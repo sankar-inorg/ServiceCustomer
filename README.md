@@ -1,7 +1,8 @@
 Customer Service APIs - Tasks
+
+Day 3:
 • Create a Customer
 • Authenticate Customer
-• Reset Password of Customer
 • Create Reset Password Token
 • Get Customer By Password Token
 • Reset Password of Customer
@@ -10,7 +11,6 @@ Customer Service APIs - Tasks
 • Create Customer Groups - Member
 • Assign Customer to Customer Group
 
-Git Commands:
-
-git branch main master -f: Forcefully reset the 'main' branch to point to the same commit as the 'master' branch
-git push origin main -f: Forcefully push the local changes to the Remote Repo
+Day 4:
+• Update Customer with preferred shoe size field.
+• Query Customers by preferred shoe size field.
