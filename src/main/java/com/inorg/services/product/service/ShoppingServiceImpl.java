@@ -6,6 +6,7 @@ import com.commercetools.api.models.customer.CustomerResourceIdentifierBuilder;
 import com.commercetools.api.models.shopping_list.*;
 import com.inorg.services.product.dto.LineItemDTO;
 import com.inorg.services.product.dto.ShoppingListDTO;
+import com.inorg.services.product.dto.UpdateItemQuantityDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -74,6 +75,32 @@ public class ShoppingServiceImpl implements ShoppingService {
         // Make the API Call by passing the Object
         return apiRoot.shoppingLists()
                 .withId(lineItemDTO.getShoppingListID())
+                .post(shoppingListUpdate)
+                .executeBlocking()
+                .getBody();
+    }
+
+    public ShoppingList updateItemQuantity(UpdateItemQuantityDTO updateItemQuantityDTO) {
+        // Get the ShoppingList
+        ShoppingList shoppingList = apiRoot.shoppingLists()
+                .withId(updateItemQuantityDTO.getShoppingListId())
+                .get()
+                .executeBlocking()
+                .getBody();
+        List<ShoppingListChangeLineItemQuantityAction> shoppingListChangeLineItemQuantityActionList = new ArrayList<>();
+        ShoppingListChangeLineItemQuantityAction shoppingListChangeLineItemQuantityAction = ShoppingListChangeLineItemQuantityActionBuilder.of()
+                .lineItemId(updateItemQuantityDTO.getLineItemId())
+                .quantity(updateItemQuantityDTO.getQuantity())
+                .build();
+        shoppingListChangeLineItemQuantityActionList.add(shoppingListChangeLineItemQuantityAction);
+
+        // Create an Update Object
+        ShoppingListUpdate shoppingListUpdate = ShoppingListUpdateBuilder.of()
+                .actions((ShoppingListUpdateAction) shoppingListChangeLineItemQuantityActionList)
+                .build();
+        // Make the API Call by passing the Object
+        return apiRoot.shoppingLists()
+                .withId(updateItemQuantityDTO.getShoppingListId())
                 .post(shoppingListUpdate)
                 .executeBlocking()
                 .getBody();

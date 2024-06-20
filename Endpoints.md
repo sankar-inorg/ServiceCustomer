@@ -66,7 +66,7 @@ POST: http://localhost:8080/customer/updateCustomer/{{customer-key}}
 
 GET: http://localhost:8080/customer/query-by/{{preferredShoeSize}}
 
-POST: http://localhost:8080/shoppingLists/createShoppingList
+POST: http://localhost:8080/shoppingLists/create
 {
     "shoppingListName" : "My Shopping list 2",
     "shoppingListSlug" : "my-shopping-list-2",
@@ -84,7 +84,15 @@ POST: http://localhost:8080/shoppingLists/addLineItem
     "Quantity" : 5
 }
 
+POST: http://localhost:8080/shoppingLists/updateItemQuantity
+{
+    "shoppingListId" : "{{shopping-list-d}}",
+    "lineItemId" : "{{line-item-d}}",
+    "quantity" : 10
+}
+
 1) Customer --> Update Customer with preferred shoe size field.
 2) Customer --> Query Customers by preferred shoe size field.
 3) ShoppingList --> Create New Shopping List for Customer.
 4) ShoppingList --> Add Items to Shopping List.
+5) ShoppingList --> Change Line Item Quantity.

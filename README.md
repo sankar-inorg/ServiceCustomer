@@ -16,3 +16,4 @@ Day 4:
 • Query Customers by preferred shoe size field
 • Create New Shopping List for Customer
 • Add Items to Shopping List
+• Update Item Qty in Shopping List.
