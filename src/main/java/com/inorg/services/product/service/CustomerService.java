@@ -4,6 +4,7 @@ import com.commercetools.api.models.customer.Customer;
 import com.commercetools.api.models.customer.CustomerPagedQueryResponse;
 import com.commercetools.api.models.customer.CustomerSignInResult;
 import com.commercetools.api.models.customer.CustomerToken;
+import com.commercetools.api.models.customer_group.CustomerGroup;
 import com.inorg.services.product.com.inorg.services.product.models.CustomerData;
 
 public interface CustomerService {
@@ -19,4 +20,13 @@ public interface CustomerService {
 
 
     CustomerPagedQueryResponse getCustomerByShoeSize(String preferredShoeSize);
+    CustomerToken createEmailVerificationToken(String customerId);
+
+    Customer verifyEmailToken(String token);
+
+    Customer verifyEmail(String token);
+
+    CustomerGroup createCustomerGroup(String customerGroupName,String groupKey);
+
+    Customer addCustomerToACustomerGroup(String customerId, String customerGroupId);
 }
