@@ -1,6 +1,7 @@
 package com.inorg.services.product.controller;
 
 import com.commercetools.api.models.shopping_list.ShoppingList;
+import com.commercetools.api.models.shopping_list.ShoppingListPagedQueryResponse;
 import com.inorg.services.product.dto.LineItemDTO;
 import com.inorg.services.product.dto.ShoppingListDTO;
 import com.inorg.services.product.dto.UpdateItemQuantityDTO;
@@ -9,10 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
@@ -44,5 +42,11 @@ public class ShoppingController {
     public ShoppingList updateItemQuantity(@RequestBody UpdateItemQuantityDTO updateItemQuantityDTO) {
         LOG.info("Updating the Item Quantity of a Line Item in the Shopping List");
         return shoppingService.updateItemQuantity(updateItemQuantityDTO);
+    }
+
+    @GetMapping(value="/get/{customerId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ShoppingListPagedQueryResponse getShoppingListOfCustomer(@PathVariable String customerId) {
+        LOG.info("Fetching the Shopping List of a Customer");
+        return shoppingService.getShoppingListOfCustomer(customerId);
     }
 }

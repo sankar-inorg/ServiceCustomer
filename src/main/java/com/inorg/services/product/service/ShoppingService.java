@@ -1,6 +1,7 @@
 package com.inorg.services.product.service;
 
 import com.commercetools.api.models.shopping_list.ShoppingList;
+import com.commercetools.api.models.shopping_list.ShoppingListPagedQueryResponse;
 import com.inorg.services.product.dto.LineItemDTO;
 import com.inorg.services.product.dto.ShoppingListDTO;
 import com.inorg.services.product.dto.UpdateItemQuantityDTO;
@@ -12,4 +13,6 @@ public interface ShoppingService {
     ShoppingList addLineItem(LineItemDTO lineItemDTO);
 
     ShoppingList updateItemQuantity(UpdateItemQuantityDTO updateItemQuantityDTO);
+
+    ShoppingListPagedQueryResponse getShoppingListOfCustomer(String customerId);
 }

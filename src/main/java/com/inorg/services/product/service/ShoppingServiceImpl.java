@@ -107,4 +107,13 @@ public class ShoppingServiceImpl implements ShoppingService {
                 .executeBlocking()
                 .getBody();
     }
+
+    @Override
+    public ShoppingListPagedQueryResponse getShoppingListOfCustomer(String customerId) {
+        return apiRoot.shoppingLists()
+                .get()
+                .withWhere("customer(id=\""+customerId+"\")")
+                .executeBlocking()
+                .getBody();
+    }
 }
