@@ -1,6 +1,7 @@
 package com.inorg.services.product.controller;
 
 import com.commercetools.api.models.customer.Customer;
+import com.commercetools.api.models.customer.CustomerPagedQueryResponse;
 import com.commercetools.api.models.customer.CustomerSignInResult;
 import com.commercetools.api.models.customer.CustomerToken;
 import com.commercetools.api.models.customer_group.CustomerGroup;
@@ -39,6 +40,18 @@ public class CustomerController {
     public CustomerSignInResult loginCustomer(@RequestBody CustomerData customerData) {
         LOG.info("Sign In Customer with email : {}", customerData.getEmail());
         return customerService.loginCustomer(customerData);
+    }
+
+    @PostMapping(value = "{customerKey}/custom", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Customer updateCustomer(@PathVariable String customerKey, @RequestBody CustomerData customerData) {
+        LOG.info("Create New Customer with email : {}", customerData.getEmail());
+        return customerService.updateCustomerShoeSize(customerKey, customerData.getPreferredShoeSize());
+    }
+
+    @GetMapping(value = "/query-by/{preferredShoeSize}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public CustomerPagedQueryResponse getCustomerByShoeSize(@PathVariable String preferredShoeSize) {
+        LOG.info("Get Customer by Shoe Size : {}", preferredShoeSize);
+        return customerService.getCustomerByShoeSize(preferredShoeSize);
     }
 
     @PostMapping(value = "/createEmailVerificationToken/{customerId}", produces = MediaType.APPLICATION_JSON_VALUE)

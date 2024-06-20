@@ -1,6 +1,7 @@
 package com.inorg.services.product.service;
 
 import com.commercetools.api.models.customer.Customer;
+import com.commercetools.api.models.customer.CustomerPagedQueryResponse;
 import com.commercetools.api.models.customer.CustomerSignInResult;
 import com.commercetools.api.models.customer.CustomerToken;
 import com.commercetools.api.models.customer_group.CustomerGroup;
@@ -15,7 +16,10 @@ public interface CustomerService {
 
     Customer resetPassword(String token, String newPassword);
 
+    Customer updateCustomerShoeSize(String customerKey, String shoeSize);
 
+
+    CustomerPagedQueryResponse getCustomerByShoeSize(String preferredShoeSize);
     CustomerToken createEmailVerificationToken(String customerId);
 
     Customer verifyEmailToken(String token);

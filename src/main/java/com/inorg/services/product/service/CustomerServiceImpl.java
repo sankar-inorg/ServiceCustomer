@@ -84,6 +84,45 @@ public class CustomerServiceImpl implements CustomerService {
                 .executeBlocking()
                 .getBody();
     }
+
+
+    @Override
+    public Customer updateCustomerShoeSize(String customerKey, String shoeSize) {
+        Customer customer = apiRoot.customers()
+                .withKey(customerKey)
+                .get()
+                .executeBlocking()
+                .getBody();
+
+        CustomerUpdateAction updateAction = CustomerSetCustomTypeActionBuilder.of()
+                .type(TypeResourceIdentifierBuilder.of()
+                        .key("customer-preferredShoeSize")
+                        .build())
+                .fields(FieldContainerBuilder.of()
+                            .addValue("preferredShoeSize", LocalizedStringBuilder.of()
+                                    .addValue("en-US", shoeSize).build())
+                            .build())
+                .build();
+
+
+        return apiRoot.customers()
+                .withId(customer.getId())
+                .post(CustomerUpdateBuilder.of()
+                        .version(customer.getVersion())
+                        .actions(updateAction)
+                        .build())
+                .executeBlocking()
+                .getBody();
+    }
+
+    @Override
+    public CustomerPagedQueryResponse getCustomerByShoeSize(String preferredShoeSize) {
+        return apiRoot.customers()
+                .get()
+                .withWhere("custom(fields(preferredShoeSize(en-US = \"" + preferredShoeSize + "\")))")
+                .executeBlocking()
+                .getBody();
+    }
     @Override
     public CustomerToken createEmailVerificationToken(String customerId){
         return apiRoot.customers()

@@ -11,4 +11,5 @@ public class CustomerData {
     private String email;
     private String password;
     private String customerKey;
+    private String preferredShoeSize;
 }
