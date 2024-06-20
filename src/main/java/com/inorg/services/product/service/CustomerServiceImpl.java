@@ -1,10 +1,13 @@
 package com.inorg.services.product.service;
 
 import com.commercetools.api.client.ProjectApiRoot;
+import com.commercetools.api.models.common.LocalizedStringBuilder;
 import com.commercetools.api.models.customer.*;
 import com.commercetools.api.models.customer_group.CustomerGroup;
 import com.commercetools.api.models.customer_group.CustomerGroupDraftBuilder;
 import com.commercetools.api.models.customer_group.CustomerGroupResourceIdentifierBuilder;
+import com.commercetools.api.models.type.FieldContainerBuilder;
+import com.commercetools.api.models.type.TypeResourceIdentifierBuilder;
 import com.inorg.services.product.com.inorg.services.product.models.CustomerData;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
