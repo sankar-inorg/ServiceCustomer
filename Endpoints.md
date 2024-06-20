@@ -95,4 +95,4 @@ POST: http://localhost:8080/shoppingLists/updateItemQuantity
 2) Customer --> Query Customers by preferred shoe size field.
 3) ShoppingList --> Create New Shopping List for Customer.
 4) ShoppingList --> Add Items to Shopping List.
-5) ShoppingList --> Change Line Item Quantity.
+5) ShoppingList --> Update Item Qty in Shopping List.

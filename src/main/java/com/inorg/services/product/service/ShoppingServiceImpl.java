@@ -87,17 +87,19 @@ public class ShoppingServiceImpl implements ShoppingService {
                 .get()
                 .executeBlocking()
                 .getBody();
-        List<ShoppingListChangeLineItemQuantityAction> shoppingListChangeLineItemQuantityActionList = new ArrayList<>();
-        ShoppingListChangeLineItemQuantityAction shoppingListChangeLineItemQuantityAction = ShoppingListChangeLineItemQuantityActionBuilder.of()
+
+        // Create the Update Action
+        ShoppingListUpdateAction shoppingListUpdateAction = ShoppingListChangeLineItemQuantityActionBuilder.of()
                 .lineItemId(updateItemQuantityDTO.getLineItemId())
                 .quantity(updateItemQuantityDTO.getQuantity())
                 .build();
-        shoppingListChangeLineItemQuantityActionList.add(shoppingListChangeLineItemQuantityAction);
 
         // Create an Update Object
         ShoppingListUpdate shoppingListUpdate = ShoppingListUpdateBuilder.of()
-                .actions((ShoppingListUpdateAction) shoppingListChangeLineItemQuantityActionList)
+                .version(shoppingList.getVersion())
+                .actions(shoppingListUpdateAction)
                 .build();
+
         // Make the API Call by passing the Object
         return apiRoot.shoppingLists()
                 .withId(updateItemQuantityDTO.getShoppingListId())
