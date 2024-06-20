@@ -136,7 +136,9 @@ public class CustomerServiceImpl implements CustomerService {
         List<CustomerUpdateAction> customerUpdateActionList =new ArrayList<>();
 
         CustomerUpdateAction setCustomerGroup = CustomerSetCustomerGroupActionBuilder.of()
-                .customerGroup(CustomerGroupResourceIdentifierBuilder.of().id(customerGroupId).build()).build();
+                .customerGroup(CustomerGroupResourceIdentifierBuilder.of()
+
+                        .id(customerGroupId).build()).build();
 
         customerUpdateActionList.add(setCustomerGroup);
 
