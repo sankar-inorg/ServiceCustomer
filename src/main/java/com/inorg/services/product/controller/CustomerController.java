@@ -25,7 +25,7 @@ public class CustomerController {
     private static final Logger LOG = LoggerFactory.getLogger(CustomerController.class);
     private final CustomerService customerService;
 
-    public CustomerController(CustomerService customerService) {
+    public CustomerController(CustomerService customerService) { // Constructor Injection
         this.customerService = customerService;
     }
 
