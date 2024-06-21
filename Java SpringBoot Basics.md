@@ -6,7 +6,7 @@ Ctrl + B
 
 MVC - Model View Controller
 
-Layered Architecture
+Repository Pattern - Layered Architecture
     - Controller (@RestController) - Where we write the APIs (Get, Post, Patch, Put, Delete)
     - Service (@Service) - Business Logic
     - Repository (@Repository) - Interact with the Database
@@ -19,9 +19,9 @@ Controllers:
     - @RequestParam - Query Parameters
 
 @RequestMapping
-    - @PostMapping - PUT
+    - @PostMapping - POST
     - @GetMapping - GET
-    - @PutMapping - POST
+    - @PutMapping - PUT
     - @PatchMapping - PATCH
     - @DeleteMapping - DELETE
     - HEAD, OPTIONS
@@ -78,7 +78,7 @@ Create
         - typeID - ResourceIdentifierBuilder
 
 Update
-    - Play with the API - Return Type and Draft - Documentation
+    - Play with the API - Return Type and Update - Documentation
     - Model/DTO - JSON PayLoad
     - To Fetch the Version - API Call
     - Create the Action --> Action Builder - Use the JSON Payload
