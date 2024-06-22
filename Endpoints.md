@@ -1,9 +1,12 @@
+Day 3:
+
 POST: http://localhost:8080/customer/signup
 {
     "email" : "johny@example.com",
     "firstName" : "John",
     "lastName" : "Bro",
     "password" : "secret123"
+    "key": "johny-bro"
 }
 
 POST: http://localhost:8080/customer/signin
@@ -41,10 +44,56 @@ POST: http://localhost:8080/customer/addCustomerToACustomerGroup/{{customer-id}}
 9) Customer --> Update Customer by ID
    - Add Customer to the Customer Group 
 
-Update APIs using Action:
+Steps to use Update APIs using Action:
 1) Get the Customer
 2) Create an Action List
 3) Create an Action
 4) Add the Action to the Action List
 5) Create the Draft using the Version from Customer and the Action List
 6) Pass the JSON Body and Make the API Call
+   
+Git Commands:
+
+git branch yashwanth main -f: Forcefully reset the 'yashwanth' branch to point to the same commit as the 'main' branch
+git push origin main -f: Forcefully push the local changes to the Remote Repo
+
+Day 4:
+
+POST: http://localhost:8080/customer/updateCustomer/{{customer-key}}
+{
+    "preferredShoeSize" : "38"
+}
+
+GET: http://localhost:8080/customer/query-by/{{preferredShoeSize}}
+
+POST: http://localhost:8080/shoppingLists/create
+{
+    "shoppingListName" : "My Shopping list 2",
+    "shoppingListSlug" : "my-shopping-list-2",
+    "customerID" : "{{customer-id}}",
+    "shoppingListKey" : "my-shopping-list-2",
+    "sku" : "Red-35",
+    "quantity" : 5
+}
+
+POST: http://localhost:8080/shoppingLists/addLineItem
+{
+    "shoppingListID" : "{{shopping-list-id}}",
+    "productID" : "{{product-id}}",
+    "variantID" : 4,
+    "Quantity" : 5
+}
+
+POST: http://localhost:8080/shoppingLists/updateItemQuantity
+{
+    "shoppingListId" : "{{shopping-list-d}}",
+    "lineItemId" : "{{line-item-d}}",
+    "quantity" : 10
+}
+
+1) Customer --> Update Customer with preferred shoe size field.
+2) Customer --> Query Customers by preferred shoe size field.
+3) ShoppingList --> Create New Shopping List for Customer.
+4) ShoppingList --> Add Items to Shopping List.
+5) ShoppingList --> Update Item Qty in Shopping List.
+6) ShoppingList --> Fetch Customer’s Shopping Lists.
