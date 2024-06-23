@@ -1,10 +1,14 @@
 package com.inorg.services.product.service;
 
 import com.commercetools.api.client.ProjectApiRoot;
+import com.commercetools.api.models.common.LocalizedStringBuilder;
 import com.commercetools.api.models.customer.*;
 import com.commercetools.api.models.customer_group.CustomerGroup;
 import com.commercetools.api.models.customer_group.CustomerGroupDraftBuilder;
 import com.commercetools.api.models.customer_group.CustomerGroupResourceIdentifierBuilder;
+import com.commercetools.api.models.type.FieldContainerBuilder;
+import com.commercetools.api.models.type.TypeResourceIdentifierBuilder;
+import com.commercetools.importapi.models.customfields.Custom;
 import com.inorg.services.product.models.CustomerData;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
@@ -22,6 +26,7 @@ public class CustomerServiceImpl implements CustomerService {
     private final ProjectApiRoot apiRoot;
 
     public CustomerServiceImpl(ProjectApiRoot apiRoot) {
+
         this.apiRoot = apiRoot;
     }
 
@@ -146,6 +151,44 @@ public class CustomerServiceImpl implements CustomerService {
         return apiRoot.customers()
                 .withId(customerId)
                 .post(customerUpdate)
+                .executeBlocking()
+                .getBody();
+    }
+
+    @Override
+    public Customer updateCustomerShoeSize(String customerKey, String shoeSize){
+        Customer customer=apiRoot.customers()
+                .withKey(customerKey)
+                .get()
+                .executeBlocking()
+                .getBody();
+
+        CustomerUpdateAction updateAction = CustomerSetCustomTypeActionBuilder.of()
+                .type(TypeResourceIdentifierBuilder.of()
+                        .key("customer-preferredShoeSize")
+                        .build())
+                .fields(FieldContainerBuilder.of()
+                        .addValue("preferredShoeSize", LocalizedStringBuilder.of()
+                                .addValue("en-US", shoeSize).build())
+                        .build())
+                .build();
+
+        return apiRoot.customers()
+                .withId(customer.getId())
+                .post(CustomerUpdateBuilder.of()
+                        .version(customer.getVersion())
+                        .actions(updateAction)
+                        .build())
+                .executeBlocking()
+                .getBody();
+    }
+
+    @Override
+    public CustomerPagedQueryResponse getCustomerByShoeSize(String preferredShoeSize) {
+        // Using Where Clause
+        return apiRoot.customers()
+                .get()
+                .withWhere("custom(fields(preferredShoeSize(en-US = \"" + preferredShoeSize + "\")))")
                 .executeBlocking()
                 .getBody();
     }
