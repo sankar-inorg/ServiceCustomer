@@ -9,10 +9,9 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CustomerData {
-    private String firstName;
-    private String lastName;
-    private String email;
-    private String password;
-    private String customerKey;
+public class LineItemModel {
+    private String listID;
+    private String productID;
+    private Long variantID;
+    private Long Quantity;
 }

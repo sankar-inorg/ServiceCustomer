@@ -1,5 +1,6 @@
 package com.inorg.services.product.com.inorg.services.product.models;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -9,10 +10,10 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CustomerData {
-    private String firstName;
-    private String lastName;
-    private String email;
-    private String password;
-    private String customerKey;
+public class CustomerGrouper {
+    @JsonProperty("CustomerID")
+    private String customerID;
+
+    @JsonProperty("GroupID")
+    private String groupID;
 }

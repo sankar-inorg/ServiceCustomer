@@ -1,19 +1,17 @@
 package com.inorg.services.product.service;
 
 import com.commercetools.api.client.ProjectApiRoot;
-import com.commercetools.api.models.customer.Customer;
-import com.commercetools.api.models.customer.CustomerCreatePasswordResetTokenBuilder;
-import com.commercetools.api.models.customer.CustomerDraft;
-import com.commercetools.api.models.customer.CustomerDraftBuilder;
-import com.commercetools.api.models.customer.CustomerResetPasswordBuilder;
-import com.commercetools.api.models.customer.CustomerSignInResult;
-import com.commercetools.api.models.customer.CustomerSigninBuilder;
-import com.commercetools.api.models.customer.CustomerToken;
+import com.commercetools.api.models.customer.*;
+import com.commercetools.api.models.customer_group.CustomerGroupResourceIdentifier;
+import com.commercetools.api.models.customer_group.CustomerGroupResourceIdentifierBuilder;
 import com.inorg.services.product.com.inorg.services.product.models.CustomerData;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @Slf4j
@@ -85,4 +83,61 @@ public class CustomerServiceImpl implements CustomerService {
                 .executeBlocking()
                 .getBody();
     }
+
+    @Override
+    public CustomerToken CreateEmailVerificationToken(String CustomerID) {
+        return apiRoot.customers()
+                .emailToken()
+                .post(CustomerCreateEmailTokenBuilder.of()
+                        .id(CustomerID)
+                        .ttlMinutes((long) 3)
+                        .build())
+                .executeBlocking()
+                .getBody();
+    }
+
+    @Override
+    public Customer VerifyEmailToken(String Token) {
+        Customer temp = apiRoot.customers()
+                .withEmailToken(Token)
+                .get()
+                .executeBlocking()
+                .getBody();
+        if (temp!=null)
+            return temp;
+        LOG.info("Customer with token not found");
+        return null;
+    }
+
+    @Override
+    public Customer AssignCustomertoCustomerGroup(String GroupID, String CustomerID) {
+        List<CustomerUpdateAction> UpdateActions = new ArrayList<>();
+
+        CustomerUpdateAction AssignCustomertoCustomerGroup = CustomerSetCustomerGroupActionBuilder.of()
+                .customerGroup(CustomerGroupResourceIdentifierBuilder.of()
+                                .id(GroupID)
+                                .build()
+                        ).build();
+        UpdateActions.add(AssignCustomertoCustomerGroup);
+
+        Customer CustomerToBeUpdated = apiRoot.customers()
+                .withId(CustomerID)
+                .get()
+                .executeBlocking()
+                .getBody();
+
+        CustomerUpdate Updates = CustomerUpdateBuilder.of()
+                .version(CustomerToBeUpdated.getVersion())
+                .actions(UpdateActions)
+                .build();
+
+        return apiRoot.customers()
+                .withId(CustomerID)
+                .post(Updates)
+                .executeBlocking()
+                .getBody();
+
+    }
+
+
 }
