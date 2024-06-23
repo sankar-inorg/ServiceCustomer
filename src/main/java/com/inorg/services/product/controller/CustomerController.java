@@ -1,12 +1,10 @@
 package com.inorg.services.product.controller;
 
 import com.commercetools.api.models.customer.Customer;
-import com.commercetools.api.models.customer.CustomerPagedQueryResponse;
 import com.commercetools.api.models.customer.CustomerSignInResult;
 import com.commercetools.api.models.customer.CustomerToken;
 import com.commercetools.api.models.customer_group.CustomerGroup;
 import com.inorg.services.product.dto.ResetPasswordDTO;
-import com.inorg.services.product.dto.UpdateCustometDTO;
 import com.inorg.services.product.models.CustomerData;
 import com.inorg.services.product.service.CustomerService;
 import org.slf4j.Logger;
@@ -82,14 +80,5 @@ public class CustomerController {
         LOG.info("Adding Customer to a Customer Group {} {}", customerId, customerGroupId);
         return customerService.addCustomerToACustomerGroup(customerId,customerGroupId);
     }
-    @PostMapping(value = "updateCustomer/{customerKey}", produces = APPLICATION_JSON_VALUE)
-    public Customer updateCustomer(@PathVariable String customerKey, @RequestBody UpdateCustometDTO updateCustomerDTO) {
-        LOG.info("Updating the Customer Details");
-        return customerService.updateCustomerShoeSize(customerKey, updateCustomerDTO.getPreferredShoeSize());
-    }
-    @GetMapping(value = "/query-by/{preferredShoeSize}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public CustomerPagedQueryResponse getCustomerByShoeSize(@PathVariable String preferredShoeSize) {
-        LOG.info("Get Customer by Shoe Size : {}", preferredShoeSize);
-        return customerService.getCustomerByShoeSize(preferredShoeSize);
-    }
+
 }
